@@ -1,2 +1,5 @@
-# chinese-poetry-corpus
-Building a corpus of Chinese Classical Poetry
+# Chinese Poetry Corpus
+
+Building a corpus of Chinese Classical Poetry by Scraping and Extracting http://sou-yun.com/
+
+
