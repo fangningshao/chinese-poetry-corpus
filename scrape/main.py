@@ -110,7 +110,7 @@ def get_poems(author):
 
             all_poems.append((p_title, p_content))
 
-            print 'POEM TITLE:', p_title
+            # print 'POEM TITLE:', p_title
             # print 'CONTENT:', p_content
 
     return all_poems
@@ -119,7 +119,7 @@ def get_poems(author):
 def save_poems(dynasty, author, poems):
     folder = DATA_FOLDER + '%s/poems/' % dynasty
     mkdir(folder)
-    print 'Saving poems for author', author
+    print 'Saving poems for author:', author, 'dynasty:', dynasty
     f = open(folder + '%s.tsv' % author, 'w')
     for d in poems:
         f.write('\t'.join(d).encode('utf8') + '\n')
@@ -130,8 +130,20 @@ def save_poems(dynasty, author, poems):
 def process_author_poems(dynasty, authors, i):
     print('%s: Process %d has %d authors' % (dynasty, i, len(authors)))
     for author in authors:
-        poems = get_poems(author)
-        save_poems(dynasty, author[0], poems)
+
+        success = False
+        for i in range(3):
+            try:
+                poems = get_poems(author)
+                success = True
+                break
+            except urllib2.URLError:
+                pass
+
+        if success:
+            save_poems(dynasty, author[0], poems)
+        else:
+            print 'ERROR AFTER RETRY 3 TIMES:', dynasty, author[0]
 
 
 def mp_process_all_authors(dynasty, authors):
@@ -156,11 +168,11 @@ if __name__ == '__main__':
     mkdir(DATA_FOLDER)
     print 'Data will be saved into:', DATA_FOLDER
     dynasty_name_urls = get_dynasties()
-    save_dynasties(dynasty_name_urls)
+    # save_dynasties(dynasty_name_urls)
 
-    for dynasty in dynasty_name_urls:
+    for dynasty in dynasty_name_urls[2:]:
         authors = get_authors(dynasty)
-        save_authors(dynasty[0], authors)
+        # save_authors(dynasty[0], authors)
 
         # for a in authors:
         #     poems = get_poems(a)
