@@ -170,7 +170,7 @@ if __name__ == '__main__':
     dynasty_name_urls = get_dynasties()
     # save_dynasties(dynasty_name_urls)
 
-    for dynasty in dynasty_name_urls[2:]:
+    for dynasty in dynasty_name_urls[8:]:
         authors = get_authors(dynasty)
         # save_authors(dynasty[0], authors)
 
